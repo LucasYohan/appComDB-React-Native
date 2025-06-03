@@ -1,4 +1,3 @@
-import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import QRScannerScreen from './QRScanner'
@@ -15,20 +14,20 @@ export default function App() {
 
       <Stack.Navigator initialRouteName="QRScanner">
 
-        <Stack.Screen  
-          name="QRScreen" 
-          component={QRScannerScreen} 
-          options={{title: 'Leitor QR Code'}}/>
+        <Stack.Screen
+          name="QRScanner"
+          component={QRScannerScreen}
+          options={{ title: 'Leitor QR Code' }} />
 
-        <Stack.Screen  
-          name="QRScreenMaquina" 
-          component={QRScannerMaquina} 
-          options={{title: 'Escanear QR Code'}}/>
+        <Stack.Screen
+          name="QRScannerMaquina"
+          component={QRScannerMaquina}
+          options={{ title: 'Escanear QR Code' }} />
 
-        <Stack.Screen  
-          name="Inserir" 
-          component={InserirScreen} 
-          options={{title: 'Cadastro de Usuário'}}/>
+        <Stack.Screen
+          name="Inserir"
+          component={InserirScreen}
+          options={{ title: 'Cadastro de Usuário' }} />
 
       </Stack.Navigator>
 

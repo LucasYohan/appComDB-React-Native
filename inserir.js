@@ -11,6 +11,12 @@ export default function Inserir() {
     const [email, setEmail] = useState('');
     const [maquina, setMaquina] = useState('');
 
+    const [dados, setDados] = useState({
+        nome: '',
+        email: '',
+        maquina: ''
+    })
+
     const navigation = useNavigation();
     const route = useRoute();
 
@@ -21,7 +27,6 @@ export default function Inserir() {
             const storageIP = await AsyncStorage.getItem('ServerIP');
 
             if (storageIP) {
-
                 setServerIP(storageIP);
             }
 
@@ -47,6 +52,7 @@ export default function Inserir() {
 
     const handleCadastro = async () => {
 
+
         if (!nome || !email || !maquina) {
 
             Alert.alert("Erro", "Preencha todos os campos");
@@ -55,44 +61,50 @@ export default function Inserir() {
 
         }
 
+        setDados(prevdados => ({
+
+            ...prevdados,
+
+            nome: nome,
+            email: email,
+            maquina: maquina
+        }))
+
         try {
-
-            await axios.post(`http://${serverIP}:3006/insert`, { nome, email, maquina }, {
-
-                headers: { "Content-Type": "application/json", "Accept": "application/json" },
-
+            await axios.post(`http://${serverIP}:3006/insert`, { dados }, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                }
             });
-
             Alert.alert("Sucesso", "Cadastro Realizado!");
             setNome('');
             setEmail('');
             setMaquina('');
 
         } catch (erro) {
-
-            Alert.alert("Erro", "Falha ao enviar os dados: " + erro.message)
-
+            console.error("Erro ao enviar:", erro);
+            Alert.alert("Erro", "Falha ao enviar os dados: " + (erro?.response?.data?.message || erro.message || "Erro desconhecido"));
         }
     };
 
-    return(
+    return (
 
         <View style={Style.container}>
 
             <Text style={Style.titulo}>Cadastro de Serviço</Text>
             <Text style={Style.ipTexto}>IP Capturado: {serverIP}</Text>
 
-            <TextInput style={Style.input} placeholder="Nome" value={nome} onChangeText={setNome}/>
-            <TextInput style={Style.input} placeholder="Email" keyboardType="email-addess" value={email} onChange={setEmail}/>
-            <TextInput style={Style.input} placeholder="Máquina" value={maquina} onChangeText={setMaquina}/>
+            <TextInput style={Style.input} placeholder="Nome" value={nome} onChangeText={setNome} />
+            <TextInput style={Style.input} placeholder="Email" keyboardType="email-address" value={email} onChange={setEmail} />
+            <TextInput style={Style.input} placeholder="Máquina" value={maquina} onChangeText={setMaquina} />
 
-            <Button title="Ler QR Code da Máquina" onPress={abrirScannerMaquina}/>
-            <Button title="Cadastrar Serviço" onPress={handleCadastro}/>
+            <Button title="Ler QR Code da Máquina" onPress={abrirScannerMaquina} />
+            <Button title="Cadastrar Serviço" onPress={handleCadastro} />
 
         </View>
 
     );
-    
 };
 
 const Style = StyleSheet.create({
@@ -105,16 +117,16 @@ const Style = StyleSheet.create({
 
     },
 
-    titulo:{
+    titulo: {
 
         fontSize: 24,
         fontWeight: 'bold',
-        color:'darkorange',
+        color: 'darkorange',
         marginBottom: 20
 
     },
 
-    ipTexto:{
+    ipTexto: {
 
         fontSize: 18,
         fontWeight: 'bold',
@@ -123,14 +135,12 @@ const Style = StyleSheet.create({
 
     },
 
-    input:{
+    input: {
 
-        width:"80%",
-        padding: 10, 
-        boderWidth: 1,
+        width: "80%",
+        padding: 10,
+        borderWidth: 1,
         marginBottom: 15
-
     }
 
 });
-

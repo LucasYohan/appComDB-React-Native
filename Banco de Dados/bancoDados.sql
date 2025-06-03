@@ -1,4 +1,4 @@
-create user 'Admin'@'%' identified by 'admin@123';
+create user 'Admin'@'%' identified by 'etecembu@123';
 
 grant all privileges on ordemservico.* to 'Admin'@'%';
 

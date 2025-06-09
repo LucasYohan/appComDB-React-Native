@@ -1,6 +1,6 @@
 create user 'Admin'@'%' identified by 'etecembu@123';
 
-grant all privileges on ordemservico.* to 'Admin'@'%';
+grant all privileges on ordemservico.* to 'root'@'%';
 
 flush privileges;
 
@@ -19,3 +19,4 @@ primary key (id)
 
 ) engine=InnoDB default charset=utf8mb4 collate=utf8mb4_general_ci;
 
+select * from servico;
